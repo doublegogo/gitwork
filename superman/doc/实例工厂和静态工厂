@@ -1,0 +1,21 @@
+静态工厂方法：
+顾名思义就是直接可以通过静态方法来实例化一个对象
+public class HelloWorldFactory {
+    public static HelloWorld getInstance(){
+        return new HelloWorld();
+    }
+}
+HelloWorldFactory.getInstance()
+
+创建 HelloWorld 对象直接可以调用getInstance方法来进行实现
+
+实例工厂方法：
+就是先创建类对象，如何通过对象来调用创建实例对象的方法
+
+public class HelloWorldFactory {
+    public HelloWorld createHelloWorld(){
+        return new HelloWorld();
+    }
+}
+HelloWorldFactory helloFactory = new HelloWorldFactory();
+helloFactory.createHelloWorld();
