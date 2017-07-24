@@ -30,30 +30,175 @@
 
     <!-- ========================= 实例化Bean ============ start-->
 
-    <!--使用默认构造参数-->
-    <bean name="bean1" class="spring.HelloImpl2"/>
-    <!--使用有参数构造参数-->
+    <!--&lt;!&ndash;使用默认构造参数&ndash;&gt;-->
+    <!--<bean name="bean1" class="spring.HelloImpl2"/>-->
+    <!--&lt;!&ndash;使用有参数构造参数&ndash;&gt;-->
 
-    <bean name="bean2" class="spring.HelloImpl2">
-        <!-- 指定构造器参数 -->
-        <constructor-arg index="0" value="Hello Spring!"/>
-    </bean>
+    <!--<bean name="bean2" class="spring.HelloImpl2">-->
+        <!--&lt;!&ndash; 指定构造器参数 &ndash;&gt;-->
+        <!--<constructor-arg index="0" value="Hello Spring!"/>-->
+    <!--</bean>-->
 
-    <!-- 使用静态工厂方法 -->
-    <bean id="bean3" class="spring.factory.HelloApiStaticFactory" factory-method="newInstance">
-        <constructor-arg index="0" value="Hello Spring!"/>
-    </bean>
+    <!--&lt;!&ndash; 使用静态工厂方法 &ndash;&gt;-->
+    <!--<bean id="bean3" class="spring.factory.HelloApiStaticFactory" factory-method="newInstance">-->
+        <!--<constructor-arg index="0" value="Hello Spring!"/>-->
+    <!--</bean>-->
 
-    <!--1、定义实例工厂Bean -->
-    <bean id="beanInstanceFactory"
-          class="spring.factory.HelloApiInstanceFactory"/>
-    <!--2、使用实例工厂Bean创建Bean-->
-    <bean id="bean4"
-          factory-bean="beanInstanceFactory"
-          factory-method="newInstance">
-        <constructor-arg index="0" value="Hello Spring!"></constructor-arg>
-    </bean>
+    <!--&lt;!&ndash;1、定义实例工厂Bean &ndash;&gt;-->
+    <!--<bean id="beanInstanceFactory"-->
+          <!--class="spring.factory.HelloApiInstanceFactory"/>-->
+    <!--&lt;!&ndash;2、使用实例工厂Bean创建Bean&ndash;&gt;-->
+    <!--<bean id="bean4"-->
+          <!--factory-bean="beanInstanceFactory"-->
+          <!--factory-method="newInstance">-->
+        <!--<constructor-arg index="0" value="Hello Spring!"></constructor-arg>-->
+    <!--</bean>-->
     <!-- ========================= 实例化Bean ============ end-->
+
+    <!-- ========================= 构造器注入参数注入 ============ start-->
+
+    <!--&lt;!&ndash; 通过构造器参数索引方式依赖注入 &ndash;&gt;-->
+    <!--<bean id="byIndex" class="spring.HelloImpl3">-->
+        <!--<constructor-arg index="0" value="Hello World!"/>-->
+        <!--<constructor-arg index="1" value="1"/>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; 通过构造器参数类型方式依赖注入 &ndash;&gt;-->
+    <!--<bean id="byType" class="spring.HelloImpl3">-->
+        <!--<constructor-arg type="java.lang.String" value="Hello World!"/>-->
+        <!--<constructor-arg type="int" value="2"/>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; 通过构造器参数名称方式依赖注入 &ndash;&gt;-->
+    <!--<bean id="byName" class="spring.HelloImpl3">-->
+        <!--<constructor-arg name="message" value="Hello World!"/>-->
+        <!--<constructor-arg name="index" value="3"/>-->
+    <!--</bean>-->
+
+    <!-- ========================= 构造器注入参数注入 ============ end-->
+
+    <!-- ========================= 静态工厂注入参数注入 ============ start-->
+    <!--<bean id="byIndex"-->
+          <!--class="spring.factory.DependencyInjectByStaticFactory" factory-method="newInstance">-->
+        <!--<constructor-arg index="0" value="Hello World!"/>-->
+        <!--<constructor-arg index="1" value="1"/>-->
+    <!--</bean>-->
+    <!--<bean id="byType"-->
+          <!--class="spring.factory.DependencyInjectByStaticFactory" factory-method="newInstance">-->
+        <!--<constructor-arg type="java.lang.String" value="Hello World!"/>-->
+        <!--<constructor-arg type="int" value="2"/>-->
+    <!--</bean>-->
+    <!--<bean id="byName"-->
+          <!--class="spring.factory.DependencyInjectByStaticFactory" factory-method="newInstance">-->
+        <!--<constructor-arg name="message" value="Hello World!"/>-->
+        <!--<constructor-arg name="index" value="3"/>-->
+    <!--</bean>-->
+    <!-- ========================= 静态工厂注入参数注入 ============ start-->
+
+    <!-- ========================= 实例工厂注入参数注入 ============ start-->
+    <!--<bean id="instanceFactory" class="spring.factory.DependencyInjectByInstanceFactory"/>-->
+    <!--<bean id="byIndex" factory-bean="instanceFactory" factory-method="newInstance">-->
+        <!--<constructor-arg index="0" value="Hello World!"/>-->
+        <!--<constructor-arg index="1" value="1"/>-->
+    <!--</bean>-->
+    <!--<bean id="byType"-->
+          <!--factory-bean="instanceFactory" factory-method="newInstance">-->
+        <!--<constructor-arg type="java.lang.String" value="Hello World!"/>-->
+        <!--<constructor-arg type="int" value="2"/>-->
+    <!--</bean>-->
+    <!--<bean id="byName"-->
+          <!--factory-bean="instanceFactory" factory-method="newInstance">-->
+        <!--<constructor-arg name="message" value="Hello World!"/>-->
+        <!--<constructor-arg name="index" value="3"/>-->
+    <!--</bean>-->
+    <!-- ========================= 实例工厂注入参数注入 ============ end-->
+
+    <!-- ========================= setter参数注入 ============ start-->
+    <!-- 通过setter方式进行依赖注入 -->
+    <!--<bean id="bean" class="spring.HelloImpl4">-->
+        <!--<property name="message" value="Hello World!"/>-->
+        <!--<property name="index">-->
+            <!--<value>1</value>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <!-- ========================= setter参数注入 ============ end-->
+
+    <!-- ========================= 常量注入 ============ start-->
+    <!-- boolean参数值可以用on/off -->
+    <!--<bean id="bean2" class="spring.bean.BooleanTestBean">-->
+        <!--<property name="success" value="on"/>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; boolean参数值可以用yes/no &ndash;&gt;-->
+    <!--<bean id="bean3" class="spring.bean.BooleanTestBean">-->
+        <!--<property name="success" value="yes"/>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; boolean参数值可以用1/0 &ndash;&gt;-->
+    <!--<bean id="bean4" class="spring.bean.BooleanTestBean">-->
+        <!--<property name="success" value="1"/>-->
+    <!--</bean>-->
+    <!-- ========================= 常量注入 ============ end-->
+
+    <!-- ========================= id注入 ============ start-->
+    <!--<bean id="bean1" class="java.lang.String">-->
+        <!--<constructor-arg index="0" value="test"/>-->
+    <!--</bean>-->
+    <!--<bean id="bean2" class="java.lang.String">-->
+        <!--<constructor-arg index="0" value="test"/>-->
+    <!--</bean>-->
+    <!--<bean id="idrefBean1" class="spring.bean.IdRefTestBean">-->
+        <!--<property name="id"><idref bean="bean1"/></property>-->
+    <!--</bean>-->
+    <!--<bean id="idrefBean2" class="spring.bean.IdRefTestBean">-->
+        <!--<property name="id"><idref bean="bean2"/></property>-->
+    <!--</bean>-->
+    <!-- ========================= id注入 ============ end-->
+
+    <!-- ========================= list注入 ============ start-->
+    <!--<bean id="listBean" class="spring.bean.ListTestBean">-->
+        <!--<property name="values">-->
+            <!--<list>-->
+                <!--<value>1</value>-->
+                <!--<value>2</value>-->
+                <!--<value>3</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <!-- ========================= list注入 ============ end-->
+
+    <!-- ========================= 注入其他bean ============ start-->
+    <!-- 定义依赖Bean -->
+    <!--<bean id="helloApi" class="spring.HelloImpl"/>-->
+    <!--&lt;!&ndash; 通过构造器注入 &ndash;&gt;-->
+    <!--<bean id="bean1" class="spring.HelloApiDecorator">-->
+        <!--<constructor-arg index="0" ref="helloApi"/>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; 通过构造器注入 &ndash;&gt;-->
+    <!--<bean id="bean2" class="spring.HelloApiDecorator">-->
+        <!--<property name="helloApi"><ref bean="helloApi"/></property>-->
+    <!--</bean>-->
+    <!-- ========================= 注入其他bean ============ end-->
+
+    <!-- ========================= 注入父bean，bean的name可以重名 ============ start-->
+    <!-- sources/chapter3/localBeanInject.xml表示当前容器配置-->
+    <!-- 注意父容器中也定义了id 为 helloApi的Bean -->
+    <!--<bean id="helloApi" class="spring.HelloImpl4">-->
+        <!--<property name="index" value="1"/>-->
+        <!--<property name="message" value="Hello Local!"/>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; 通过local注入 &ndash;&gt;-->
+    <!--<bean id="bean1" class="spring.HelloApiDecorator">-->
+        <!--<constructor-arg index="0"><ref bean="helloApi"/></constructor-arg>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; 通过parent注入 &ndash;&gt;-->
+    <!--<bean id="bean2" class="spring.HelloApiDecorator">-->
+        <!--<property name="helloApi"><ref parent="helloApi"/></property>-->
+    <!--</bean>-->
+    <!-- ========================= 注入父bean，bean的name可以重名 ============ end-->
+
+    <!-- ========================= 内部Bean定义 ============ start-->
+
+
+    <!-- ========================= 内部Bean定义 ============ end-->
+
+
 
 
 </beans>
