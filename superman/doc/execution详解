@@ -12,3 +12,82 @@ execution (* com.sample.service.impl..*.*(..))
  3、包名：表示需要拦截的包名，后面的两个句点表示当前包和当前包的所有子包，com.sample.service.impl包、子孙包下所有类的方法。
  4、第二个*号：表示类名，*号表示所有的类。
  5、*(..):最后这个星号表示方法名，*号表示所有的方法，后面括弧里面表示方法的参数，两个句点表示任何参数。
+
+
+ 模式
+ 描述
+
+ public * *(..)
+ 任何公共方法的执行
+
+ * cn.javass..IPointcutService.*()
+ cn.javass包及所有子包下IPointcutService接口中的任何无参方法
+
+ * cn.javass..*.*(..)
+ cn.javass包及所有子包下任何类的任何方法
+
+ * cn.javass..IPointcutService.*(*)
+ cn.javass包及所有子包下IPointcutService接口的任何只有一个参数方法
+
+ * (!cn.javass..IPointcutService+).*(..)
+ 非“cn.javass包及所有子包下IPointcutService接口及子类型”的任何方法
+
+ * cn.javass..IPointcutService+.*()
+ cn.javass包及所有子包下IPointcutService接口及子类型的的任何无参方法
+
+ * cn.javass..IPointcut*.test*(java.util.Date)
+ cn.javass包及所有子包下IPointcut前缀类型的的以test开头的只有一个参数类型为java.util.Date的方法，注意该匹配是根据方法签名的参数类型进行匹配的，而不是根据执行时传入的参数类型决定的
+ 如定义方法：public void test(Object obj);即使执行时传入java.util.Date，也不会匹配的；
+
+ * cn.javass..IPointcut*.test*(..)  throws
+  IllegalArgumentException, ArrayIndexOutOfBoundsException
+ cn.javass包及所有子包下IPointcut前缀类型的的任何方法，且抛出IllegalArgumentException和ArrayIndexOutOfBoundsException异常
+
+ * (cn.javass..IPointcutService+
+ && java.io.Serializable+).*(..)
+ 任何实现了cn.javass包及所有子包下IPointcutService接口和java.io.Serializable接口的类型的任何方法
+
+ @java.lang.Deprecated * *(..)
+ 任何持有@java.lang.Deprecated注解的方法
+
+ @java.lang.Deprecated @cn.javass..Secure  * *(..)
+ 任何持有@java.lang.Deprecated和@cn.javass..Secure注解的方法
+ @(java.lang.Deprecated || cn.javass..Secure) * *(..)
+ 任何持有@java.lang.Deprecated或@ cn.javass..Secure注解的方法
+ (@cn.javass..Secure  *)  *(..)
+ 任何返回值类型持有@cn.javass..Secure的方法
+ *  (@cn.javass..Secure *).*(..)
+ 任何定义方法的类型持有@cn.javass..Secure的方法
+ * *(@cn.javass..Secure (*) , @cn.javass..Secure (*))
+ 任何签名带有两个参数的方法，且这个两个参数都被@ Secure标记了，
+ 如public void test(@Secure String str1,
+  @Secure String str1);
+ * *((@ cn.javass..Secure *))或
+ * *(@ cn.javass..Secure *)
+ 任何带有一个参数的方法，且该参数类型持有@ cn.javass..Secure；
+ 如public void test(Model model);且Model类上持有@Secure注解
+ * *(
+ @cn.javass..Secure (@cn.javass..Secure *) ,
+ @ cn.javass..Secure (@cn.javass..Secure *))
+ 任何带有两个参数的方法，且这两个参数都被@ cn.javass..Secure标记了；且这两个参数的类型上都持有@ cn.javass..Secure；
+
+ * *(
+ java.util.Map<cn.javass..Model, cn.javass..Model>
+ , ..)
+ 任何带有一个java.util.Map参数的方法，且该参数类型是以< cn.javass..Model, cn.javass..Model >为泛型参数；注意只匹配第一个参数为java.util.Map,不包括子类型；
+ 如public void test(HashMap<Model, Model> map, String str);将不匹配，必须使用“* *(
+ java.util.HashMap<cn.javass..Model,cn.javass..Model>
+ , ..)”进行匹配；
+ 而public void test(Map map, int i);也将不匹配，因为泛型参数不匹配
+ * *(java.util.Collection<@cn.javass..Secure *>)
+ 任何带有一个参数（类型为java.util.Collection）的方法，且该参数类型是有一个泛型参数，该泛型参数类型上持有@cn.javass..Secure注解；
+ 如public void test(Collection<Model> collection);Model类型上持有@cn.javass..Secure
+ * *(java.util.Set<? extends HashMap>)
+ 任何带有一个参数的方法，且传入的参数类型是有一个泛型参数，该泛型参数类型继承与HashMap；
+ Spring AOP目前测试不能正常工作
+ * *(java.util.List<? super HashMap>)
+ 任何带有一个参数的方法，且传入的参数类型是有一个泛型参数，该泛型参数类型是HashMap的基类型；如public voi test(Map map)；
+ Spring AOP目前测试不能正常工作
+ * *(*<@cn.javass..Secure *>)
+ 任何带有一个参数的方法，且该参数类型是有一个泛型参数，该泛型参数类型上持有@cn.javass..Secure注解；
+ Spring AOP目前测试不能正常工作
